@@ -1,38 +1,29 @@
 package guru.qa.niffler.page;
 
+import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 
+import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.$x;
+import static com.codeborne.selenide.Selenide.$$;
 
 public class ProfilePage {
-    private final SelenideElement showArchivedSwitcher = $("input.PrivateSwitchBase-input.MuiSwitch-input[type=\"checkbox\"]");
+    private final SelenideElement showArchivedSwitcher = $(".MuiSwitch-input");
+    private final ElementsCollection categories = $$(".MuiGrid-item .MuiChip-label");
 
-    public ProfilePage clickShowArchivedSwitcher(){
-        showArchivedSwitcher.scrollIntoView(false).click();
+    public ProfilePage clickShowArchivedSwitcher() {
+        showArchivedSwitcher.click();
         return this;
     }
 
-    public ProfilePage checkCategoryIsDisplayed(String category){
-        $x("//span[text()='" + category + "']").shouldBe(visible);
+    public ProfilePage checkCategoryIsDisplayed(String category) {
+        categories.find(text(category)).shouldBe(visible);
         return this;
     }
 
-    public ProfilePage checkCategoryIsNotDisplayed(String category){
-        $x("//span[text()='" + category + "']").shouldNotBe(visible);
-        return this;
-    }
-
-    public ProfilePage archiveCategory(String category){
-        $x("//span[text()='" + category + "']/../..//button[@aria-label=\"Archive category\"]").click();
-        $x("//button[text()='Archive']").click();
-        return this;
-    }
-
-    public ProfilePage unarchiveCategory(String category){
-        $x("//span[text()='" + category + "']/../..//button[@aria-label=\"Unarchive category\"]").click();
-        $x("//button[text()='Unarchive']").click();
+    public ProfilePage checkCategoryIsNotDisplayed(String category) {
+        categories.find(text(category)).shouldNotBe(visible);
         return this;
     }
 }

@@ -15,15 +15,13 @@ public class ProfileTest {
 
     @Category(
             username = REGESTED_USERNAME,
-            archived = false
+            archived = true
     )
     @Test
     void archivedCategoryShouldPresentInCategoriesList(CategoryJson category) {
         Selenide.open(CFG.frontUrl(), LoginPage.class)
                 .doLogin(REGESTED_USERNAME, REGESTED_PASSWORD)
                 .goToProfile()
-                .checkCategoryIsDisplayed(category.name())
-                .archiveCategory(category.name())
                 .checkCategoryIsNotDisplayed(category.name())
                 .clickShowArchivedSwitcher()
                 .checkCategoryIsDisplayed(category.name());
@@ -31,18 +29,13 @@ public class ProfileTest {
 
     @Category(
             username = REGESTED_USERNAME,
-            archived = true
+            archived = false
     )
     @Test
     void activeCategoryShouldPresentInCategoriesList(CategoryJson category) {
         Selenide.open(CFG.frontUrl(), LoginPage.class)
                 .doLogin(REGESTED_USERNAME, REGESTED_PASSWORD)
                 .goToProfile()
-                .checkCategoryIsNotDisplayed(category.name())
-                .clickShowArchivedSwitcher()
-                .checkCategoryIsDisplayed(category.name())
-                .unarchiveCategory(category.name())
-                .clickShowArchivedSwitcher()
                 .checkCategoryIsDisplayed(category.name());
     }
 }
